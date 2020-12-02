@@ -1,4 +1,4 @@
 # sysad2-12021
 
-![EARTH](https://en.wikipedia.org/wiki/File:The_Earth_seen_from_Apollo_17.jpg)
+![EARTH](https://www.nasa.gov/image-feature/global-mosiac-of-pluto-in-true-color)
 
