@@ -1,0 +1,7 @@
+[Information]
+hostname = ubuntu-1810135
+servername = sysad2
+
+[default]
+inventory = ./inventory
+remote_user = sysad2
