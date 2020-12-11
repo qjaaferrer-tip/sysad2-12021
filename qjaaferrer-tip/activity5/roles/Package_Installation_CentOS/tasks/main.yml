@@ -1,0 +1,15 @@
+---
+# tasks file for roles/Package_Installation_CentOS
+
+  - name: Installation [Java]
+    yum:
+      name: java-11-openjdk-devel
+      state: latest
+      update_cache: yes
+
+  - name: Installation [boto, ansible, and openstack]
+    pip:
+      name:
+        - boto
+        - ansible
+        - python-openstackclient

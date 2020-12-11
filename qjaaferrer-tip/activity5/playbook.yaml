@@ -1,0 +1,11 @@
+---
+  - name: Ubuntu Installation [Complete Package]
+    hosts: ubuntu
+    roles:
+      - Package_Installation_Ubuntu
+
+  - name: Cent0S Installation [Complete Package]
+    hosts: CentOS
+    roles:
+      - Package_Installation_CentOS
+
