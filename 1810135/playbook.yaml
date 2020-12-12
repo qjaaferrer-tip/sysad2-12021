@@ -1,0 +1,79 @@
+---
+
+  - name: Installation of [Apache] & [Updating Firewall]
+    hosts: all
+    tasks:
+      - name: Installing [Apache]
+        apt:
+          name: apache2
+          state: latest
+          update_cache: yes
+
+
+      - name: apache2_index
+        copy:
+          content: "qjaaferrer-tip"
+          dest: /var/www/html/index.html
+          owner: root
+          group: root
+          mode: '0644'
+        register: apache_index
+
+      - name: Starting [Apache2 Service]
+        service:
+          name: apache2
+          state: restarted
+          enabled: yes
+        when: apache_index.changed
+
+      - name: List of apache2 in [ufw]
+        ufw:
+          rule: allow
+          port: '80'
+          proto: tcp
+
+  - name: Checking Webservice if its [up]
+    hosts: localhost
+    connection: local
+
+    tasks:
+        - name: checking [web service]
+          uri:
+            url: http://www.example.com
+      
+  - name: Installing [MySQL]
+    hosts: all
+    tasks:
+        - name: Installation [MySQL DB]
+          apt:
+            name: mysql-server
+            state: latest
+            update_cache: yes
+           
+        - name: MySQL [Index]
+          copy:
+            content: "qjaaferrer"
+            dest: /var/www/html/indexone.html
+            owner: root
+            group: root
+            mode: '0644'
+          register: mysqlservice_index
+
+        - name: Starting [MySQL Service]
+          service:
+            name: mysql
+            state: restarted
+            enabled: yes
+          when: mysqlservice_index.changed
+
+  - name: Installing [PHP]
+    hosts: all
+    tasks:
+      - name: Installion of PHP in [Ubuntu]
+        apt:
+          name:
+            - php
+            - php-mysql
+            - libapache2-mod-php
+          state: latest
+          update_cache: yes
