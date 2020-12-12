@@ -1,0 +1,32 @@
+---
+# tasks file for roles/apache
+
+
+  - name: Installing [Apache]
+    apt:
+      name: apache2
+      state: latest
+      update_cache: yes
+
+  - name: apache2_index
+    copy:
+      content: "qjaaferrer-tip"
+      dest: /var/www/html/index.html
+      owner: root
+      group: root
+      mode: '0644'
+    register: apache_index
+
+  - name: Starting [Apache2 Service]
+    service:
+      name: apache2
+      state: restarted
+      enabled: yes
+    when: apache_index.changed
+
+  - name: List of apache2 in [ufw]
+    ufw:
+      rule: allow
+      port: '80'
+      proto: tcp
+
