@@ -1,0 +1,7 @@
+---
+# tasks file for roles/new_user
+
+  - name: Creating a [user]
+    user:
+      name: alexis
+      comment: User created successfully

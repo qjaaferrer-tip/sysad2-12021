@@ -1,0 +1,14 @@
+---
+
+  - name: Installation of the (Latest Version) Python, pip3 & java(open-jdk) | Change MOTD | Create new user
+    hosts: all
+    vars:
+      user: alexis
+      username: qjaaferrer
+
+    roles:
+      - install_python
+      - install_java
+      - change_motd
+      - new_user
+
