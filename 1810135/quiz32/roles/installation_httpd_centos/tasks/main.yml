@@ -1,0 +1,53 @@
+---
+# tasks file for roles/installation_httpd_centos
+
+- name: Installation of [httpd]
+  yum:
+    name: httpd
+    state: latest
+    update_cache: yes
+
+- name: Setup Firewall
+  service:
+    name: firewalld
+    state: stopped
+    enabled: no
+
+- name: Creating apache2 user
+  user:
+    name: juju
+    password: $5$TwqXjgFhY0Ua3Sf6$RoieHjFCCvwZ0SLeRvOMe7l7UMeUQz0UOVARoNl1ZRA
+    comment: "Created Successfully"
+
+- name: Add DenyUser in /etc/ssh/sshd_config
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    line: "DenyUsers juju"
+  register: sshd_config
+
+- name: sshd service restart
+  service:
+    name: sshd
+    state: restarted
+  when: sshd_config.changed
+
+- name: Create Domain Directory
+  file:
+    path: /var/www/juju
+    state: directory
+    owner: juju
+    group: juju
+    mode: '755'
+
+- name: Create index.html
+  copy:
+    content: "Senoir"
+    dest: /var/www/juju/index.html
+  register: apache_index
+
+- name: Start apache2 service
+  service:
+    name: httpd
+    state: restarted
+    enabled: yes
+  when: apache_index.changed

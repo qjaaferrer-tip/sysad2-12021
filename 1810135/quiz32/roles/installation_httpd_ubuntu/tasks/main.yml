@@ -1,0 +1,53 @@
+---
+# tasks file for roles/installation_httpd_ubuntu
+
+- name: Installation of apache2 [Ubuntu]
+  apt:
+    name: apache2
+    state: latest
+    update_cache: yes
+
+- name: Setup Firewall
+  service:
+    name: ufw
+    state: stopped
+    enabled: no
+
+- name: Create User for [apache2]
+  user:
+    name: jeje
+    password: $5$8vsBb6PX5UFE4PeK$ocNwLIX7D.sRrDsyb1rad3ZGELT7/ZEJyps2SX6BwQ7
+    comment: "Successfully Created"
+
+- name: Add DenyUsers
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    line: "DenyUsers jeje"
+  register: sshd_config
+
+- name: sshd service restart
+  service:
+    name: sshd
+    state: restarted
+  when: sshd_config.changed
+
+- name: Creating Domain
+  file:
+    path: /var/www/jeje
+    state: directory
+    owner: jeje
+    group: jeje
+    mode: '755'
+
+- name: Creating index.html
+  copy:
+    content: "Hijo"
+    dest: /var/www/jeje/index.html
+  register: apache_index
+
+- name: apache2 service restart
+  service:
+    name: apache2
+    state: restarted
+    enabled: yes
+  when: apache_index.changed
