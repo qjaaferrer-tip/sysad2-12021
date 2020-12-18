@@ -4,7 +4,7 @@
 
 ### Directories
 
-__qjaaferre-tip__
+__qjaaferrer-tip__
 __sysad2-12021__
 __1810135__
 __activity6__
