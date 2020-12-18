@@ -1,0 +1,15 @@
+---
+- name: Installation of [Vsftpd] and [Firewall] Setup
+  hosts: ubuntu
+  roles:
+    - vsftpd_installation
+
+- name: Creating user and configuration ssh
+  hosts: ubuntu
+  roles:
+    - ssh_user
+
+- name: vsftpd configuration and creating directories
+  hosts: ubuntu
+  roles:
+    - files_folders
