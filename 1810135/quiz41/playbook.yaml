@@ -1,0 +1,15 @@
+---
+
+- name: Installing Ubuntu
+  hosts: ubuntu
+  roles:
+    - ubuntu_configuration
+    - nagmain_ubuntu
+    - nagplugs_ubuntu
+
+- name: Installing CentOS
+  hosts: centos
+  roles:
+    - centos_configuration
+    - nagmain_centos
+    - nagplugs_centos
