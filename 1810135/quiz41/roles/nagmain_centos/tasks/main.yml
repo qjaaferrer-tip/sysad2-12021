@@ -8,7 +8,7 @@
     remote_src: yes
 
 - name: Configuration | Nagios | Centos
-  command: ./configure --with-command-group=nagiosxi
+  command: ./configure --with-command-group=nagcmd
   args:
     chdir: /tmp/nagios-4.4.5
 
