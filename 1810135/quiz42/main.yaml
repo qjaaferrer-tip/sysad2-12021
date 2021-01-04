@@ -1,0 +1,12 @@
+---
+
+- name: Performance Monitor Ubuntu
+  hosts: ubuntu
+  roles:
+    - ubuntu_installation
+
+
+- name: Performance Monitor CentOS
+  hosts: centos
+  roles:
+    - centos_installation
