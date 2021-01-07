@@ -1,0 +1,17 @@
+---
+
+- name: Installing | Monitoring Services | Ubuntu
+  hosts: ubuntu
+  roles:
+    - ubuntu_elk
+    - ubuntu_nagios
+    - ubuntu_grafana
+    - ubuntu_prometheus
+
+- name: Installing | Monitor Services | CentOS
+  hosts: centos
+  roles:
+    - centos_elk
+    - centos_nagios
+    - centos_grafana
+    - centos_prometheus
