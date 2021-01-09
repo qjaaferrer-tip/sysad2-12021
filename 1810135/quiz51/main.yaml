@@ -1,0 +1,12 @@
+---
+
+- name: Installing Packages Ubuntu
+  hosts: ubuntu
+  roles:
+    - elk_ubuntu
+
+
+- name: Installing Packages Centos
+  hosts: centos
+  roles:
+    - elk_centos
