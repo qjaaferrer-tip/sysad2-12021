@@ -1,0 +1,31 @@
+---
+# tasks file for roles/kibana_host
+
+- name: Installing | Kibana
+  apt:
+    name: kibana
+    state: present
+    update_cache: yes
+
+- name: Updating | Configuration File | Allow Authorization
+  lineinfile:
+    path: /etc/kibana/kibana.yml
+    regexp: 'server.host'
+    line: 'server.host: "localhost"'
+
+- name: Defining | Server Port
+  lineinfile:
+    path: /etc/kibana/kibana.yml
+    regexp: 'server.port'
+    line: 'server.port: 5601'
+
+- name: Updating | Configuration File
+  lineinfile:
+    path: /etc/kibana/kibana.yml
+    regexp: 'elasticsearch.hosts:'
+    line: 'elasticsearch.hosts: ["http://localhost:9200"]'
+
+- name: Starting | Kibana Service
+  service:
+    name: kibana
+    state: started

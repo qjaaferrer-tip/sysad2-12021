@@ -1,0 +1,33 @@
+---
+# tasks file for roles/logstash_host
+
+- name: Installing | Dependencies | Java & Nginx
+  apt:
+    name:
+      - openjdk-11-jdk
+      - nginx
+    state: latest
+    update_cache: yes
+
+- name: Starting nginx
+  service:
+    name: nginx
+    state: started
+
+- name: Adding | Logstash APT key | Elastic Search
+  apt_key:
+    url: "https://artifacts.elastic.co/GPG-KEY-elasticsearch"
+    state: present
+
+- name: Adding | Logstash Repo
+  shell: echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main"  | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list
+
+- name: Installing | Logstash
+  apt:
+    name: logstash
+    update_cache: yes
+
+- name: Starting | Logstash
+  service:
+    name: logstash
+    state: restarted

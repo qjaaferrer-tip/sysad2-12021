@@ -1,0 +1,73 @@
+---
+# tasks file for roles/elk_ubuntu
+
+- name: Installing | Dependencies | Java & Nginx
+  apt:
+    name:
+      - openjdk-11-jdk
+      - nginx
+    state: latest
+    update_cache: yes
+
+- name: Installing | APT Repository
+  apt:
+     name: apt-transport-https
+     state: present
+
+- name: Adding | Elastic Search APT Key
+  apt_key:
+    url: "https://artifacts.elastic.co/GPG-KEY-elasticsearch"
+    state: present
+
+- name: Adding | Elastic Search Repository
+  shell: echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list
+
+- name: Updating | Package List
+  apt:
+    update_cache: yes
+    force_apt_get: yes
+
+- name: Installing | Elastic Search
+  apt:
+    name: elasticsearch
+    update_cache: yes
+
+- name: Updating | Configuration | Elastic Search
+  lineinfile:
+    destfile: /etc/elasticsearch/elasticsearch.yml
+    regexp: 'network.host'
+    line: 'network.host: 0.0.0.0'
+
+- name: Updating | Port | Configuration File
+  lineinfile:
+    destfile: /etc/elasticsearch/elasticsearch.yml
+    regexp: 'http.port:'
+    line: 'http.port: 9200'
+
+- name: Updating | Configuration File | Allowing Outsiders
+  lineinfile:
+    destfile: /etc/elasticsearch/elasticsearch.yml
+    regexp: 'cluster.initial_master_nodes:'
+    line: 'cluster.initial_master_nodes: ["{{ ansible_default_ipv4.address }}"]'
+
+- name: Creating | Drop-in Service | Config Directory
+  file:
+    path: /etc/systemd/system/elasticsearch.service.d
+    state: directory
+    mode: '0755'
+
+- name: TimeoutStartSec | Configuration
+  shell: echo "[Service]\nTimeoutStartSec=180" | sudo tee /etc/systemd/system/elasticsearch.service.d/startup-timeout.conf
+
+- name: Daemon | Refreshing | Reloading
+  shell: systemctl daemon-reload
+
+- name: Stopping | ufw Service
+  service:
+    name: ufw
+    state: stopped
+
+- name: Starting | Elastic Search Servic
+  service:
+    name: elasticsearch
+    state: started

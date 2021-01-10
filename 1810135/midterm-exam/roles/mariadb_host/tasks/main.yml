@@ -1,0 +1,13 @@
+---
+# tasks file for roles/mariadb_host
+
+- name: Installation | MariaDB
+  apt:
+    name: mariadb-server-10.3
+    state: present
+    update_cache: yes
+
+- name: Starting | MariaDB Service
+  service:
+    name: mariadb
+    state: started

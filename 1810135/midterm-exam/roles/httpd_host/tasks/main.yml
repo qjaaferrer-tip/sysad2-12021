@@ -1,0 +1,28 @@
+---
+# tasks file for roles/httpd_host
+
+
+- name: Installation | Apache2
+  apt:
+    name: apache2
+    state: latest
+    update_cache: yes
+
+- name: Installation | PHP
+  apt:
+    name:
+      - php
+      - libapache2-mod-php
+      - php-mysql
+
+- name: Starting | Apache2 Service
+  service:
+    name: apache2
+    state: started
+    enabled: yes
+
+- name: Stop ufw
+  service:
+    name: ufw
+    state: stopped
+    enabled: no

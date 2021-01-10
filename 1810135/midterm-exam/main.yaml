@@ -1,0 +1,64 @@
+---
+
+- name: Installing | Configuring | Elastic Search
+  vars_files:
+    - ./config.yaml
+  hosts: elasticsearch
+  roles:
+    - elk_ubuntu
+
+- name: Installing | Configuring | Kibana
+  vars_files:
+    - ./config.yaml
+  hosts: kibana
+  roles:
+    - kibana_host
+
+- name: Installing | Configuring | Logstash
+  vars_files:
+    - ./config.yaml
+  hosts: logstash
+  roles:
+    - logstash_host
+
+- name: Installing | Configuring | Nagios
+  vars_files:
+    - ./config.yaml
+  hosts: nagios
+  roles:
+    - nagios_host
+
+- name: Installing | Configuring | Grafana
+  vars_files:
+    - ./config.yaml
+  hosts: grafana
+  roles:
+    - grafana_host
+
+- name: Installing | Configuring | Prometheus
+  vars_files:
+    - ./config.yaml
+  hosts: prometheus
+  roles:
+    - prometheus_host
+
+- name: Installing | Configuring | httpd
+  vars_files:
+    - ./config.yaml
+  hosts: httpd
+  roles:
+    - httpd_host
+
+- name: Installing | Configuring | mariadb
+  vars_files:
+    - ./config.yaml
+  hosts: mariadb
+  roles:
+    - mariadb_host
+
+- name: Installing | Configuring | influxdb
+  vars_files:
+    - ./config.yaml
+  hosts: influxdb
+  roles:
+    - influxdb_host
