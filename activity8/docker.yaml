@@ -1,0 +1,67 @@
+---
+
+# Installing | Configuring | Building | Running | Docker File
+
+
+- name: Installing | PIP | Docker-py
+  hosts: localhost
+  connection: local
+  tasks:
+          - name: Installing | PIP
+            apt:
+                    name: python3-pip
+                    state: present
+                    update_cache: yes
+
+          - name: Installing | Docker-py
+            pip:
+                    name: docker-py
+
+
+- name: Building | Running | Dockerfile
+  hosts: localhost
+  connection: local
+  tasks:
+          - name: Building | Web Server | Docker File
+            docker_image:
+                    name: web-server
+                    build:
+                            path: dockerfiles/web_server/
+                            pull: no
+                    source: build
+                    state: present
+            register: building_web
+
+          - name: Running | Web Server | Container
+            docker_container:
+                    name: web-server
+                    image: web-server:latest
+                    privileged: yes
+                    published_ports: 8080:80
+            when: building_web.changed
+
+          - name: Building | DB Server | Docker File
+            docker_image:
+                    name: db-server
+                    build:
+                            path: dockerfiles/db_server/
+                            pull: no
+                    source: build
+                    state: present
+            register: building_db
+
+          - name: Running | DB Server | Container
+            docker_container:
+                    name: db-server
+                    image: db-server:latest
+                    privileged: yes
+                    published_ports: 3306:3306
+            when: building_db.changed
+
+          - name: Restarting | Docker
+            systemd:
+                    name: docker
+                    state: restarted
+            when:
+                    - building_web.changed
+                    - building_db.changed

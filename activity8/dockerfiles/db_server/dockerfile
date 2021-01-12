@@ -1,0 +1,5 @@
+FROM mysql:latest
+
+ENV MYSQL_ROOT_PASSWORD="viray123"
+
+EXPOSE 3306
