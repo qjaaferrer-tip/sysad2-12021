@@ -1,0 +1,100 @@
+---
+
+- name: Cloning | Prelim-Exam | Centos
+  hosts:
+    - centos
+  vars_files:
+    - config.yaml
+  roles:
+    - centos_cloning
+
+- name: Installing | CentOS Enterprise Service
+  hosts:
+    - centos
+  vars_files:
+    - config.yaml
+  roles:
+    - centos_ftp
+
+
+- name: Installing | CentOS Monitoring Service
+  hosts:
+    - centos
+  vars_files:
+    - config.yaml
+  roles:
+    - centos_nagios
+
+
+- name: Changing | CentOS MOTD
+  hosts:
+    - centos
+  vars_files:
+    - config.yaml
+  roles:
+    - motd
+
+- name: Cloning | Prelim-Exam | Debian
+  hosts:
+    - debian
+  vars_files:
+    - config.yaml
+  roles:
+    - debian_cloning
+
+- name: Installing | Debian Enterprise Service
+  hosts:
+    - debian
+  vars_files:
+    - config.yaml
+  roles:
+    - debian_nagios
+
+- name: Installing | Debian Monitoring Service
+  hosts:
+    - debian
+  vars_files:
+    - config.yaml
+  roles:
+    - debian_ftp
+
+- name: Changing | Debian MOTD
+  hosts:
+    - debian
+  vars_files:
+    - config.yaml
+  roles:
+    - motd
+
+- name: Cloning | Prelim-Exam | OpenSuse Leap
+  hosts:
+    - leapsuse
+  vars_files:
+    - config.yaml
+  roles:
+    - leapsuse_cloning
+
+- name: Installing | OpenSuse Leap Enterprise Service
+  hosts:
+    - leapsuse
+  vars_files:
+    - config.yaml
+  roles:
+    - leapsuse_ftp
+
+- name: Installing | OpenSuse Leap Monitoring Service
+  hosts:
+    - leapsuse
+  vars_files:
+    - config.yaml
+  roles:
+    - leapsuse_nagios
+
+- name: Changing | OpenSuse Leap MOTD
+  hosts:
+    - leapsuse
+  vars_files:
+    - config.yaml
+  roles:
+    - motd
+

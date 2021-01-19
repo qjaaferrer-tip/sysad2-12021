@@ -1,0 +1,13 @@
+---
+# tasks file for roles/leapsuse_cloning
+
+- name: Installing | OpenSuse Leap GIT
+  zypper:
+    name: git
+    state: latest
+
+- name: Cloning | Prelim-Exam | OpenSuse Leap
+  git:
+    repo: '{{ prelim_exam }}'
+    dest: ./prelim-exam
+    version: prelim-exam
